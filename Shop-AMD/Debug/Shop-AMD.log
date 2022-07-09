@@ -1,0 +1,4 @@
+﻿  AMD-shop.cpp
+D:\Programs\c++\Shop-AMD\Shop-AMD\AMD-shop.cpp(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Programs\c++\Shop-AMD\Shop-AMD\AMD-shop.cpp(5,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Shop-AMD.vcxproj -> D:\Programs\c++\Shop-AMD\Debug\Shop-AMD.exe
