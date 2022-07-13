@@ -1,4 +1,8 @@
 ﻿  AMD-shop.cpp
 D:\Programs\c++\Shop-AMD\Shop-AMD\AMD-shop.cpp(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 D:\Programs\c++\Shop-AMD\Shop-AMD\AMD-shop.cpp(5,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Programs\c++\Shop-AMD\Shop-AMD\User.h(217,11): warning C4101: 'p': unreferenced local variable
+D:\Programs\c++\Shop-AMD\Shop-AMD\User.h(346,11): warning C4101: 'p': unreferenced local variable
+D:\Programs\c++\Shop-AMD\Shop-AMD\User.h(344,19): warning C4101: 's': unreferenced local variable
+D:\Programs\c++\Shop-AMD\Shop-AMD\User.h(446,12): warning C4101: 'p': unreferenced local variable
   Shop-AMD.vcxproj -> D:\Programs\c++\Shop-AMD\Debug\Shop-AMD.exe

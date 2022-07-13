@@ -1,4 +1,42 @@
 #pragma once
+#include<string.>
+
+
+void delete_line(const char* file_name, int n)
+{
+	
+	std::ifstream is(file_name);
+
+	
+	std::ofstream ofs;
+	ofs.open("temp.txt", std::ofstream::out);
+
+	
+	char c;
+	int line_no = 1;
+	while (is.get(c))
+	{
+		
+		if (c == '\n')
+			line_no++;
+
+		
+		if (line_no != n)
+			ofs << c;
+	}
+
+
+	ofs.close();
+
+	is.close();
+
+
+	remove(file_name);
+
+	
+	rename("temp.txt", file_name);
+}
+
 
 class User {
 public:
@@ -40,9 +78,9 @@ public:
 
 		if (count == 1)
 		{
-			while (ain >> id >> pass) {
+			while (ain >> id ) {
 
-				if (id == userID && pass == Lpassword) {
+				if (id == userID ) {
 					return 2;
 				}
 			}
@@ -66,21 +104,29 @@ public:
 		std::cout << "\t\t\t Enter the password : ";
 		std::cin >> rpassword;
 		std::ifstream fin("records.txt");
-
-		if (fin >> ruserID)
-		{
-			system("cls");
-			std::cout << " You are already registered " << std::endl;
-			MainMenu();
-
+		bool good = true;
+		while (fin >> rid >>rpass ) {
+			
+			if (rid == ruserID) {
+				good = false;
+			}
+			
 		}
-		else {
+		if (good)
+		{
+			
 			std::ofstream fout("records.txt", std::ios::app);
 			fout << ruserID << " " << rpassword << std::endl;
 			system("cls");
 			std::cout << "\n\t\t\t Registration is successfull! \n";
-			MainMenu();
+
+
 		}
+		else {
+			system("cls");
+			std::cout << " You are already registered " << std::endl;
+		}
+		MainMenu();
 	}
 
 };
@@ -92,7 +138,8 @@ class Administrator : public User {
 		std::cout << "\t| 1)Add items        |" << std::endl;
 		std::cout << "\t| 2)Delete items     |" << std::endl;
 		std::cout << "\t| 3)Add admin        |" << std::endl;
-		std::cout << "\t| 4)Exit             |" << std::endl;
+		std::cout << "\t| 4)Logout           |" << std::endl;
+		std::cout << "\t| 5)Exit             |" << std::endl;
 		std::cout << "\n\t\t\t Please enter your choice : ";
 		std::cin >> a;
 		std::cout << std::endl;
@@ -108,6 +155,10 @@ class Administrator : public User {
 			Add_admin();
 			break;
 		case 4:
+			system("cls");
+			User::MainMenu();
+			break;
+		case 5:
 			exit(0);
 			break;
 		default:
@@ -116,17 +167,142 @@ class Administrator : public User {
 			MainMenu();
 
 		}
-
+		
 
 	}
 	void Add_items() {
+		int i;
+		Produs* p;
+		int  cores,threads,TDP, nms, memory;
+		float weight, height, price;
+		std::string socket, frequency,resolution,tech,Name;
+		std::cout << "\t| 1) CPU  |" << std::endl;
+		std::cout << "\t| 2) APU  |" << std::endl;
+		std::cout << "\t| 3) GPU  |" << std::endl;
+		std::cout << "\t| 4) Back |" << std::endl;
+		std::cout << "\t| 5) Exit |" << std::endl;
+		std::cout << "\n\t\t\tPlease enter your choice : ";
+		std::cin >> i;
+		std::cout << std::endl;
+		switch (i) {
+		case 1:
+			std::cout << "eu\n";
+			std::cin >> weight >> height >> TDP >> nms >> memory >> frequency >> cores >> threads >> socket >> price >> Name;
+			p = new CPU(price, Name, cores, threads, socket, weight, height, TDP, nms, memory, frequency);
+			p->Pafisare();
+			
+			break;
+		case 2:
+			std::cin >> weight >> height >> TDP >> nms >> memory >> frequency >> cores >> threads >> socket >> resolution >> tech >> price >> Name;
+			p = new APU(price, Name, weight, height, TDP, nms, memory, frequency, cores, threads, socket, resolution, tech);
+			p->Pafisare();
+			break;
+		case 3:
+			std::cin >> weight >> height >> TDP >> nms >> memory >> frequency >> resolution >> tech >> price >> Name;
+			p = new GPU(price, Name, resolution, tech, weight, height, TDP, nms, memory, frequency);
+			p->Pafisare();
+			break;
+		case 4:
+			MainMenu();
+			break;
+		case 5:
+			exit(0);
+			break;
+		}
 
 	}
 	void Delete_items() {
+		int u,i=1,a;
+		std::string tip;
+		Produs* p;
+		int  cores, threads, TDP, nms, memory;
+		float weight, height;
+		std::string socket, frequency, resolution, tech;
+		std::cout << "\t| 1) CPU  |" << std::endl;
+		std::cout << "\t| 2) APU  |" << std::endl;
+		std::cout << "\t| 3) GPU  |" << std::endl;
+		std::cout << "\t| 4) Back |" << std::endl;
+		std::cout << "\t| 5) Exit |" << std::endl;
+		std::cout << "\n\t\t\tPlease enter your choice : ";
+		
+		std::cout << std::endl;
+		std::ifstream pin("Produse.txt");
+		while (pin>>tip) {
+			if (tip == "CPU")
+			{
+				a = 1;
+			}
+			else if(tip=="APU"){
+				a = 2;
+			}
+			else {
+				a = 3;
+			}
+			switch (a) {
+			case 1:
 
+				pin >> weight >> height >> TDP >> nms >> memory >> frequency >> cores >> threads >> socket;
+				std::cout<<"(" << i << ") Product name : ";
+				std::cout << std::endl;
+				break;
+			case 2:
+				pin >> weight >> height >> TDP >> nms >> memory >> frequency >> cores >> threads >> socket >> resolution >> tech;
+				std::cout << "(" << i << ") Product name : ";
+				std::cout << std::endl;
+				break;
+			case 3:
+				pin >> weight >> height >> TDP >> nms >> memory >> frequency  >> resolution >> tech;
+				std::cout << "(" << i << ") Product name : ";
+				std::cout << std::endl;
+				break;
+			}
+			i++;
+		}
+		std::cout << "Product delete : ";
+		while (std::cin >> u)
+		{
+			if (u <= 0 || u > i) {
+				std::cout << "wrong number try again ";
+			}
+			else {
+				system("cls");
+				delete_line("Produse.txt", u);
+				std::cout << "Delete succesfull!\n";
+			}
+		}
+		MainMenu();
 	}
 	void Add_admin() {
+		std::string auserID, rpassword, aid, rpass;
+		system("cls");
+		std::cout << "\t\t\t Enter the username : ";
+		std::cin >> auserID;
+		
+		std::ifstream fin("records.txt");
+		bool good = true;
+		while (fin >> aid >> rpass) {
 
+			if (aid == auserID) {
+				good = false;
+			}
+			
+		}
+		if (good)
+		{
+
+			std::ofstream fout("admin.txt", std::ios::app);
+			fout << std::endl;
+			fout << auserID << std::endl;
+			system("cls");
+			std::cout << "\n\t\t\t  successfull! \n";
+
+
+		}
+		else {
+			system("cls");
+			std::cout << " This user is already an administrator!  " << std::endl;
+		}
+		MainMenu();
 	}
 };
 class Client : public User {
@@ -135,7 +311,8 @@ class Client : public User {
 
 		std::cout << "\t| 1) Add items into the shopping cart    |" << std::endl;
 		std::cout << "\t| 2) Remove items from the shoping cart  |" << std::endl;
-		std::cout << "\t| 3) Exit                                |" << std::endl;
+		std::cout << "\t| 3) Logout                              |" << std::endl;
+		std::cout << "\t| 4) Exit                                |" << std::endl;
 		std::cout << "\n\t\t\t Please enter yout choice : ";
 		std::cin >> m;
 		std::cout << std::endl;
@@ -148,6 +325,10 @@ class Client : public User {
 			Remove_item();
 			break;
 		case 3:
+			system("cls");
+			User::MainMenu();
+			break;
+		case 4:
 			exit(0);
 			break;
 		default:
@@ -160,8 +341,159 @@ class Client : public User {
 	}
 	void Add_item() {
 
-	}
-	void Remove_item() {
+		int u, i = 1, a,s;
+		std::string tip;
+		Produs* p;
+		int  cores, threads, TDP, nms, memory;
+		float weight, height, price;
+		std::string socket, frequency, resolution, tech, Name;
+		
+		std::cout << "Please select product" << std::endl;
+		std::ifstream pin("Produse.txt");
+		while (pin >> tip) {
+			if (tip == "CPU")
+			{
+				a = 1;
+			}
+			else if (tip == "APU") {
+				a = 2;
+			}
+			else {
+				a = 3;
+			}
+			switch (a) {
+			case 1:
 
+				pin >> price >> Name >> weight >> height >> TDP >> nms >> memory >> frequency >> cores >> threads >> socket;
+				std::cout << "(" << i << ")" << Name << " " << price;
+				std::cout << std::endl;
+				break;
+			case 2:
+				pin >> price >> Name >> weight >> height >> TDP >> nms >> memory >> frequency >> cores >> threads >> socket >> resolution >> tech;
+				std::cout << "(" << i << ")" << Name << " " << price;
+				std::cout << std::endl;
+				break;
+			case 3:
+				pin >> price >> Name >> weight >> height >> TDP >> nms >> memory >> frequency >> resolution >> tech;
+				std::cout << "(" << i << ")" << Name << " " << price;
+				std::cout << std::endl;
+				break;
+			}
+			i++;
+		}
+		
+		std::cout << "Product number : ";
+		while (std::cin >> u)
+		{
+			if (u <= 0 || u > i) {
+				std::cout << "wrong number try again ";
+			}
+			else {
+				system("cls");
+				std::ofstream sout("ShopingCart.txt", std::ios::app);
+				i = 1;
+				bool ok = false;
+				while (pin >> tip && !ok) {
+					if (tip == "CPU")
+					{
+						a = 1;
+					}
+					else if (tip == "APU") {
+						a = 2;
+					}
+					else {
+						a = 3;
+					}
+					switch (a) {
+					case 1:
+
+						pin >> price >> Name >> weight >> height >> TDP >> nms >> memory >> frequency >> cores >> threads >> socket;
+						if (i == u) {
+							ok = true;
+							sout << weight << " " << height << " " << TDP << " " << nms << " " << memory << " " << frequency << " " << cores << " " << threads << " " << socket<<std::endl;
+						}
+						break;
+					case 2:
+						pin >> price >> Name >> weight >> height >> TDP >> nms >> memory >> frequency >> cores >> threads >> socket >> resolution >> tech;
+						if (i == u) {
+							ok = true;
+							sout << weight << " " << height << " " << TDP << " " << nms << " " << memory << " " << frequency << " " << cores << " " << threads << " " << socket << std::endl;
+						}
+						break;
+					case 3:
+						pin >> price >> Name >> weight >> height >> TDP >> nms >> memory >> frequency >> resolution >> tech;
+						if (i == u) {
+							ok = true;
+							sout << weight << " " << height << " " << TDP << " " << nms << " " << memory << " " << frequency << " " << cores << " " << threads << " " << socket << std::endl;
+						}
+						break;
+					}
+					
+					i++;
+					if (ok) {
+						std::cout << "Multumim pentru alegere!" << std::endl;
+						break;
+					}
+				}
+				
+			}
+		}
+		
 	}
+		void Remove_item() {
+			int u, i = 1, a;
+			std::string tip;
+			Produs* p;
+			int  cores, threads, TDP, nms, memory;
+			float weight, height, price;
+			std::string socket, frequency, resolution, tech, Name;
+			
+			std::cout << std::endl;
+			std::ifstream sin("ShopingCart.txt");
+			while (sin >> tip) {
+				if (tip == "CPU")
+				{
+					a = 1;
+				}
+				else if (tip == "APU") {
+					a = 2;
+				}
+				else {
+					a = 3;
+				}
+				switch (a) {
+				case 1:
+
+					sin >>price >> Name >>weight >> height >> TDP >> nms >> memory >> frequency >> cores >> threads >> socket;
+					std::cout << "(" << i << ") Product name : ";
+					std::cout << std::endl;
+					break;
+				case 2:
+					sin >> price >> Name >> weight >> height >> TDP >> nms >> memory >> frequency >> cores >> threads >> socket >> resolution >> tech;
+					std::cout << "(" << i << ") Product name : ";
+					std::cout << std::endl;
+					break;
+				case 3:
+					sin >>  price >> Name >> weight >> height >> TDP >> nms >> memory >> frequency >> resolution >> tech;
+					std::cout << "(" << i << ") Product name : ";
+					std::cout << std::endl;
+					break;
+				}
+				i++;
+			}
+			std::cout << "Product delete : ";
+			while (std::cin >> u)
+			{
+				if (u <= 0 || u > i) {
+					std::cout << "wrong number try again ";
+				}
+				else {
+					system("cls");
+					delete_line("ShopingCart.txt", u);
+					std::cout << "Delete succesfull!\n";
+				}
+			}
+			MainMenu();
+		}
+	
 };

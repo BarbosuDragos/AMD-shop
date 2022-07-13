@@ -5,6 +5,8 @@
 
 class Produs {
 protected:
+	std::string Name;
+	float price;
 	float weight;
 	float height;
 	int TDP;
@@ -13,6 +15,8 @@ protected:
 	std::string clock_frequency;
 public:
 	Produs() {
+		Name = "";
+		price = 0;
 		weight = 0;
 		height = 0;
 		TDP = 0;
@@ -20,15 +24,23 @@ public:
 		memory = 0;
 		clock_frequency = "";
 	}
-	Produs(float weight, float height, int TDP, int nms, int memory, std::string frequency) {
+	Produs(float price, std::string Name, float weight, float height, int TDP, int nms, int memory, std::string frequency) {
+		this->price = price;
+		this->Name = Name;
 		this->weight = weight;
 		this->height = height;
 		this->TDP = TDP;
 		this->nms = nms;
 		this->clock_frequency = frequency;
 	}
+	virtual void Pafisare() {
+
+	}
+	virtual void citire() {
+
+	}
 };
-class CPU : public Produs {
+class CPU : virtual public Produs {
 private:
 	int cores;
 	int threads;
@@ -39,7 +51,10 @@ public:
 		threads = 0;
 		socket = "";
 	}
-	CPU(int cores, int threads, std::string socket, float weight, float height, int TDP, int nms, int memory, std::string frequency) {
+	CPU(float price, std::string Name, int cores, int threads, std::string socket, float weight, float height, int TDP, int nms, int memory, std::string frequency)
+	 {
+		this->price = price;
+		this->Name = Name;
 		this->weight = weight;
 		this->height = height;
 		this->TDP = TDP;
@@ -51,17 +66,26 @@ public:
 		this->socket = socket;
 
 	}
+	void Pafisare() {
+		std::ofstream pout("Produse.txt", std::ios::app);
+		pout << "CPU " << " " << price << " " << Name << " " << weight << " " << height << " " << TDP << " " << nms << " " << memory << " " << clock_frequency << " " << cores << " " << threads << " " << socket << std::endl;
+
+	}
+	
 };
-class GPU : public Produs {
+class GPU : virtual public Produs {
 private:
-	int maximum_resolution;
+	std::string maximum_resolution;
 	std::string Technologies;
 public:
 	GPU() {
-		maximum_resolution = 0;
+		maximum_resolution = "";
 		Technologies = "";
 	}
-	GPU(int resolution, std::string Technologies, float weight, float height, int TDP, int nms, int memory, std::string frequency) {
+	GPU(float price, std::string Name, std::string resolution, std::string Technologies, float weight, float height, int TDP, int nms, int memory, std::string frequency)
+	 {
+		this->price = price;
+		this->Name = Name;
 		this->weight = weight;
 		this->height = height;
 		this->TDP = TDP;
@@ -71,23 +95,31 @@ public:
 		this->maximum_resolution = resolution;
 		this->Technologies = Technologies;
 	}
+	void Pafisare() {
+		std::ofstream pout("Produse.txt", std::ios::app);
+		pout << "GPU " << " " << price << " " << Name << " " << weight << " " << height << " " << TDP << " " << nms << " " << memory << " " << clock_frequency << " " << maximum_resolution << " " << Technologies<< std::endl;
+
+	}
 };
-class APU : public Produs {
+class APU : public CPU, public GPU {
 private:
 	int cores;
 	int threads;
 	std::string socket;
-	int maximum_resolution;
+	std::string maximum_resolution;
 	std::string Tehnologies;
 public:
 	APU() {
 		cores = 0;
 		threads = 0;
 		socket = "";
-		maximum_resolution = 0;
+		maximum_resolution = "";
 		Tehnologies = "";
 	}
-	APU(float weight, float height, int TDP, int nms, int memory, std::string frequency, int cores, int threads, std::string socket, int resolution, std::string Tehnologies) {
+	APU(float price, std::string Name, float weight, float height, int TDP, int nms, int memory, std::string frequency, int cores, int threads, std::string socket, std::string resolution, std::string Tehnologies)
+		:Produs(price, Name, weight, height,  TDP, nms,  memory,  frequency){
+		this->price = price;
+		this->Name = Name;
 		this->weight = weight;
 		this->height = height;
 		this->TDP = TDP;
@@ -100,5 +132,9 @@ public:
 		this->maximum_resolution = resolution;
 		this->Tehnologies = Tehnologies;
 	}
+	void Pafisare() {
+		std::ofstream pout("Produse.txt", std::ios::app);
+		pout << "APU " << " " << price << " " << Name << " " << weight << " " << height << " " << TDP << " " << nms << " " << memory << " " << clock_frequency << " " << cores << " " << threads << " " << socket << " " << maximum_resolution << " " << Tehnologies << std::endl;
 
+	}
 };
